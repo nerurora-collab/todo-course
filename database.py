@@ -7,7 +7,10 @@ SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     # "postgresql://postgres:omegamkii15@localhost/TodoAplicationDatabase"
     # "sqlite:///./todosapp.db"
 
-engine = create_engine(SQLALCHEMY_DATABASE_URI, connect_args = {"check_same_thread": False})
+if SQLALCHEMY_DATABASE_URI and SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
+    SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
+
+engine = create_engine(SQLALCHEMY_DATABASE_URI)
 # engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
